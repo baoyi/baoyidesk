@@ -5,7 +5,7 @@ import android.content.pm.ResolveInfo;
 import android.view.View;
 
 import com.by.codes.adapter.ListAdapter;
-import com.inzi123.widget.ResolveInfoApp;
+import com.inzi123.widget.ResolveInfoApp1;
 
 public class ResolveInfoAdapter extends ListAdapter<ResolveInfo> {
 
@@ -14,14 +14,14 @@ public class ResolveInfoAdapter extends ListAdapter<ResolveInfo> {
 	}
 	@Override
 	protected View updateView(int position, View view, ResolveInfo item) {
-		ResolveInfoApp app=(ResolveInfoApp)view;
+		ResolveInfoApp1 app=(ResolveInfoApp1)view;
 		app.setResolveInfo(item);
 		return app;
 	}
 
 	@Override
 	protected View creatView(int position, ResolveInfo item) {
-		ResolveInfoApp app=new ResolveInfoApp(context);
+		ResolveInfoApp1 app=new ResolveInfoApp1(context);
 		app.setResolveInfo(item);
 		return app;
 	}

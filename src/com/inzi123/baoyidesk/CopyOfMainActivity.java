@@ -48,17 +48,17 @@ public class CopyOfMainActivity extends FragmentActivity {
             mApplications.clear();
 
             for (int i = 0; i < count; i++) {
-                ApplicationInfo application = new ApplicationInfo();
-                ResolveInfo info = apps.get(i);
-                application.title = info.loadLabel(manager);
-                application.setActivity(new ComponentName(
-                        info.activityInfo.applicationInfo.packageName,
-                        info.activityInfo.name),
-                        Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                application.icon = info.activityInfo.loadIcon(manager);
-                mApplications.add(application);
-                adapter.add(application);
+//                ApplicationInfo application = new ApplicationInfo();
+//                ResolveInfo info = apps.get(i);
+//                application.title = info.loadLabel(manager);
+//                application.setActivity(new ComponentName(
+//                        info.activityInfo.applicationInfo.packageName,
+//                        info.activityInfo.name),
+//                        Intent.FLAG_ACTIVITY_NEW_TASK
+//                        | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+//                application.icon = info.activityInfo.loadIcon(manager);
+//                mApplications.add(application);
+//                adapter.add(application);
             }
         }
         gridView=(GridView) findViewById(R.id.gridView);

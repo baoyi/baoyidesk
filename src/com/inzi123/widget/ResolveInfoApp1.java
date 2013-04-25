@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,13 +14,10 @@ import com.inzi123.baoyidesk.BaoyiApplication;
 import com.inzi123.baoyidesk.R;
 import com.inzi123.cache.IconCache;
 
-public class ResolveInfoApp extends LinearLayout {
+public class ResolveInfoApp1 extends TextView {
 
-	public ResolveInfoApp(Context context) {
+	public ResolveInfoApp1(Context context) {
 		super(context);
-		LayoutInflater.from(context).inflate(R.layout.widget_app, this);
-		imageView = (ImageView) findViewById(R.id.imageView1);
-		textView = (TextView) findViewById(R.id.textView);
 	}
 
 	ResolveInfo resolveInfo;
@@ -42,22 +40,20 @@ public class ResolveInfoApp extends LinearLayout {
 
 	public void setResolveInfo(ResolveInfo resolveInfo) {
 		this.resolveInfo = resolveInfo;
-		
-		
-		BaoyiApplication application=	(BaoyiApplication) getContext().getApplicationContext();
-        IconCache iconCache=application.getIconCache();
-        imageView.setImageDrawable(iconCache.getFullResIcon(resolveInfo));
-//		imageView.setImageDrawable(resolveInfo.activityInfo
-//				.loadIcon(getContext().getPackageManager()));
-		textView.setText(resolveInfo
-				.loadLabel(getContext().getPackageManager()));
-		
+
+		BaoyiApplication application = (BaoyiApplication) getContext()
+				.getApplicationContext();
+		IconCache iconCache = application.getIconCache();
+		setCompoundDrawablesWithIntrinsicBounds(null,
+				iconCache.getFullResIcon(resolveInfo), null, null);
+		setGravity(Gravity.CENTER);
+		// imageView.setImageDrawable(resolveInfo.activityInfo
+		// .loadIcon(getContext().getPackageManager()));
+		setText(resolveInfo.loadLabel(getContext().getPackageManager()));
+
 		setActivity(new ComponentName(
 				resolveInfo.activityInfo.applicationInfo.packageName,
 				resolveInfo.activityInfo.name), Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+				| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 	}
-
-	private ImageView imageView;
-	TextView textView;
 }
