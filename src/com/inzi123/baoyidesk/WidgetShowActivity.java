@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
+<<<<<<< HEAD
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -23,11 +24,23 @@ public class WidgetShowActivity extends Activity {
 	private static String TAG = "AddAppWidget";
 	private static final int MY_REQUEST_APPWIDGET = 1;
 	private static final int MY_CREATE_APPWIDGET = 2;
+=======
+import android.os.Bundle;
+import android.view.Menu;
+import android.widget.LinearLayout;
+
+public class WidgetShowActivity extends Activity {
+	private List<AppWidgetProviderInfo> widgetList;
+	private AppWidgetManager awm;
+	public static final int APPWIDGET_HOST_ID = 1024;
+	LinearLayout linearlayout;
+>>>>>>> 1bb155f8878f1e353f51a3d7476d614ce2104a81
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_widget_show);
+<<<<<<< HEAD
 		appWidgetManager = AppWidgetManager.getInstance(this);
 		widgetList = appWidgetManager.getInstalledProviders();
 		AppWidgetProviderInfo info = widgetList.get(0);
@@ -59,10 +72,24 @@ public class WidgetShowActivity extends Activity {
 
 		// 选择某项AppWidget后，立即返回，即回调onActivityResult()方法
 		startActivityForResult(pickIntent, MY_REQUEST_APPWIDGET);
+=======
+		linearlayout=(LinearLayout) findViewById(R.id.linearlayout);
+		awm = AppWidgetManager.getInstance(this);
+		widgetList = awm.getInstalledProviders();
+		AppWidgetProviderInfo info = widgetList.get(0);
+		int[] ids = awm.getAppWidgetIds(info.provider);
+
+		host = new AppWidgetHost(this, APPWIDGET_HOST_ID);
+		host.startListening();
+		AppWidgetHostView view = host.createView(this,host.allocateAppWidgetId(), info);
+		linearlayout.addView(view);
+		//view.updateAppWidgetSize(new Bundle(), 0, 0, 800, 800);
+>>>>>>> 1bb155f8878f1e353f51a3d7476d614ce2104a81
 	}
 
 	AppWidgetHost host;
 
+<<<<<<< HEAD
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// 直接返回，没有选择任何一项 ，例如按Back键
 		if (resultCode == RESULT_CANCELED)
@@ -149,6 +176,12 @@ public class WidgetShowActivity extends Activity {
 				widget_minWidht, widget_minHeight);
 		// 添加至LinearLayout父视图中
 		linearlayout.addView(hostView);
+=======
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.widget_show, menu);
+		return true;
+>>>>>>> 1bb155f8878f1e353f51a3d7476d614ce2104a81
 	}
 
 }

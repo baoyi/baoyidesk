@@ -23,7 +23,15 @@
             android:label="@string/title_activity_widget_show" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+<<<<<<< HEAD
                 <category android:name="android.intent.category.LAUNCHER" />
+=======
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MONKEY" />
+>>>>>>> 1bb155f8878f1e353f51a3d7476d614ce2104a81
             </intent-filter>
         </activity>
     </application>
