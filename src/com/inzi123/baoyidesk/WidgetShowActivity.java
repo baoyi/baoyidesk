@@ -8,6 +8,7 @@ import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -136,14 +137,18 @@ public class WidgetShowActivity extends Activity {
 				appWidgetId, appWidgetProviderInfo);
 
 		// linearLayout.addView(hostView) ;
+		Rect padding = hostView.getDefaultPaddingForWidget(this,
+				appWidgetProviderInfo.provider, null);
+		int widget_minWidht = appWidgetProviderInfo.minWidth + padding.left
+				+ padding.right;
+		int widget_minHeight = appWidgetProviderInfo.minHeight + padding.top
+				+ padding.bottom;
 
-		int widget_minWidht = appWidgetProviderInfo.minWidth;
-		int widget_minHeight = appWidgetProviderInfo.minHeight;
 		// 设置长宽 appWidgetProviderInfo 对象的 minWidth 和 minHeight 属性
 		LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
 				widget_minWidht, widget_minHeight);
 		// 添加至LinearLayout父视图中
-		linearlayout.addView(hostView, linearLayoutParams);
+		linearlayout.addView(hostView);
 	}
 
 }
