@@ -17,9 +17,12 @@
         <activity
             android:name="com.inzi123.baoyidesk.MainActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.inzi123.baoyidesk.WidgetShowActivity"
+            android:label="@string/title_activity_widget_show" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
