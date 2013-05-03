@@ -21,6 +21,7 @@ public class WidgetShowActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_widget_show);
+		linearlayout=(LinearLayout) findViewById(R.id.linearlayout);
 		awm = AppWidgetManager.getInstance(this);
 		widgetList = awm.getInstalledProviders();
 		AppWidgetProviderInfo info = widgetList.get(0);
@@ -28,9 +29,9 @@ public class WidgetShowActivity extends Activity {
 
 		host = new AppWidgetHost(this, APPWIDGET_HOST_ID);
 		host.startListening();
-		AppWidgetHostView view = host.createView(this, ids[0], info);
-		linearlayout=(LinearLayout) findViewById(R.id.linearlayout);
+		AppWidgetHostView view = host.createView(this,host.allocateAppWidgetId(), info);
 		linearlayout.addView(view);
+		//view.updateAppWidgetSize(new Bundle(), 0, 0, 800, 800);
 	}
 
 	AppWidgetHost host;
