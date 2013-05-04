@@ -11,18 +11,18 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class WidgetShowActivity extends Activity {
+public class WidgetShowActivity1 extends Activity {
 	private List<AppWidgetProviderInfo> widgetList;
 	private AppWidgetManager appWidgetManager;
 	public static final int APPWIDGET_HOST_ID = 1024;
 	LinearLayout linearlayout;
-	int id;
-	private Object options;
-	private static final int REQUEST_BIND_APPWIDGET = 11;
+	private static String TAG = "AddAppWidget";
+	private static final int MY_REQUEST_APPWIDGET = 1;
+	private static final int MY_CREATE_APPWIDGET = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,36 +30,35 @@ public class WidgetShowActivity extends Activity {
 		setContentView(R.layout.activity_widget_show);
 		appWidgetManager = AppWidgetManager.getInstance(this);
 		widgetList = appWidgetManager.getInstalledProviders();
+		AppWidgetProviderInfo info = widgetList.get(0);
+
 		host = new AppWidgetHost(this, APPWIDGET_HOST_ID);
 		host.startListening();
-		linearlayout = (LinearLayout) findViewById(R.id.linearlayout);
-		aa();
-		aa();
-		aa();
+		// int[] ids = awm.getAppWidgetIds(info.provider);
 
+		linearlayout = (LinearLayout) findViewById(R.id.linearlayout);
 	}
 
-	private void aa() {
-		id = host.allocateAppWidgetId();
-		AppWidgetProviderInfo appWidgetProviderInfo = widgetList.get(1);
-		boolean success = false;
-		success = appWidgetManager.bindAppWidgetIdIfAllowed(id,
-				appWidgetProviderInfo.provider);
-		if (success) {
-			AppWidgetHostView hostView = host.createView(
-					WidgetShowActivity.this, id, appWidgetProviderInfo);
-			linearlayout.addView(hostView);
-		} else {
-			Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_BIND);
-			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
-			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_PROVIDER,
-					appWidgetProviderInfo.provider);
-			// TODO: we need to make sure that this accounts for the options
-			// bundle.
-			// intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_OPTIONS,
-			// options);
-			startActivityForResult(intent, REQUEST_BIND_APPWIDGET);
-		}
+	public void click(View v) {
+		work();
+	}
+
+	private void work() {
+		Intent pickIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_PICK);
+
+		// 向系统申请一个新的appWidgetId ，该appWidgetId与我们发送Action为ACTION_APPWIDGET_PICK
+		// 后所选择的AppWidget绑定 。 因此，我们可以通过这个appWidgetId获取该AppWidget的信息了
+
+		// 为当前所在进程申请一个新的appWidgetId
+		int newAppWidgetId = host.allocateAppWidgetId();
+		Log.i(TAG, "The new allocate appWidgetId is ----> " + newAppWidgetId);
+
+		// 作为Intent附加值 ， 该appWidgetId将会与选定的AppWidget绑定
+		pickIntent
+				.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, newAppWidgetId);
+
+		// 选择某项AppWidget后，立即返回，即回调onActivityResult()方法
+		startActivityForResult(pickIntent, MY_REQUEST_APPWIDGET);
 	}
 
 	AppWidgetHost host;
@@ -114,25 +113,29 @@ public class WidgetShowActivity extends Activity {
 
 	}
 
-	private static String TAG = "AddAppWidget";
-	private static final int MY_REQUEST_APPWIDGET = 1;
-	private static final int MY_CREATE_APPWIDGET = 2;
-
 	// 向当前视图添加一个用户选择的
 	private void completeAddAppWidget(Intent data) {
 		Bundle extra = data.getExtras();
 		int appWidgetId = extra.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
 		// 等同于上面的获取方式
+		// int appWidgetId =
+		// data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID ,
+		// AppWidgetManager.INVALID_APPWIDGET_ID) ;
+
 		Log.i(TAG, "completeAddAppWidget : appWidgetId is ----> " + appWidgetId);
+
 		if (appWidgetId == -1) {
-			Toast.makeText(WidgetShowActivity.this, "添加窗口小部件有误",
+			Toast.makeText(WidgetShowActivity1.this, "添加窗口小部件有误",
 					Toast.LENGTH_SHORT);
 			return;
 		}
+
 		AppWidgetProviderInfo appWidgetProviderInfo = appWidgetManager
 				.getAppWidgetInfo(appWidgetId);
-		AppWidgetHostView hostView = host.createView(WidgetShowActivity.this,
+
+		AppWidgetHostView hostView = host.createView(WidgetShowActivity1.this,
 				appWidgetId, appWidgetProviderInfo);
+
 		// linearLayout.addView(hostView) ;
 		Rect padding = hostView.getDefaultPaddingForWidget(this,
 				appWidgetProviderInfo.provider, null);
@@ -140,6 +143,7 @@ public class WidgetShowActivity extends Activity {
 				+ padding.right;
 		int widget_minHeight = appWidgetProviderInfo.minHeight + padding.top
 				+ padding.bottom;
+
 		// 设置长宽 appWidgetProviderInfo 对象的 minWidth 和 minHeight 属性
 		LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
 				widget_minWidht, widget_minHeight);
