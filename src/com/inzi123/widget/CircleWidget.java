@@ -2,7 +2,9 @@ package com.inzi123.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -70,11 +72,20 @@ public class CircleWidget extends View {
 	 * @param canvas
 	 */
 	private void drawYellow(Canvas canvas) {
+		canvas.drawText("滑动3", 0, 0, paint);
+
 		canvas.save();
 		canvas.rotate(degrees, canvas.getWidth() / 2, canvas.getWidth() / 2);
 		yellow.setBounds(new Rect(0, 0, canvas.getWidth(),
 				canvas.getHeight() + 25));
 		yellow.draw(canvas);
+		Path path=new Path();
+		path.addArc(new RectF(150, 0, canvas.getWidth(),
+				canvas.getHeight() + 25),0,180f);
+		paint.setColor(Color.RED);
+		paint.setTextSize(20);
+		canvas.drawTextOnPath("关键词1", path, 0, 0, paint);
+		canvas.drawText("滑动2", 0, 0, paint);
 		canvas.restore();
 	}
 
@@ -187,6 +198,8 @@ public class CircleWidget extends View {
 		}
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			LogUtil.i("ACTION_UP");
+			degrees=-150;
+			postInvalidate();
 		}
 		if (event.getAction() == MotionEvent.ACTION_CANCEL) {
 			LogUtil.i("ACTION_CANCEL");
