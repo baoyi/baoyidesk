@@ -72,16 +72,21 @@ public class CircleWidget extends View {
 	 * @param canvas
 	 */
 	private void drawYellow(Canvas canvas) {
-		canvas.drawText("滑动3", 0, 0, paint);
+		canvas.drawText("滑动3", 0, 20, paint);
 
 		canvas.save();
-		canvas.rotate(degrees, canvas.getWidth() / 2, canvas.getWidth() / 2);
+		canvas.rotate(yellowdegrees, canvas.getWidth() / 2,
+				canvas.getWidth() / 2);
 		yellow.setBounds(new Rect(0, 0, canvas.getWidth(),
 				canvas.getHeight() + 25));
 		yellow.draw(canvas);
-		Path path=new Path();
-		path.addArc(new RectF(150, 0, canvas.getWidth(),
-				canvas.getHeight() + 25),0,180f);
+
+		canvas.restore();
+
+		canvas.save();
+		Path path = new Path();
+		path.addArc(new RectF(canvas.getWidth() / 2, canvas.getWidth() / 2,
+				canvas.getWidth() + 50, canvas.getWidth() + 50), 180, 180f);
 		paint.setColor(Color.RED);
 		paint.setTextSize(20);
 		canvas.drawTextOnPath("关键词1", path, 0, 0, paint);
@@ -96,9 +101,10 @@ public class CircleWidget extends View {
 	 */
 	private void drawGreed(Canvas canvas) {
 		canvas.save();
-		canvas.rotate(-120, canvas.getWidth() / 2, canvas.getWidth() / 2);
+		canvas.rotate(greendegrees, canvas.getWidth() / 2,
+				canvas.getWidth() / 2);
 		greed.setBounds(new Rect(0, 0, canvas.getWidth(),
-				canvas.getHeight() + 25));
+				canvas.getHeight() + 50));
 		greed.draw(canvas);
 		canvas.restore();
 	}
@@ -110,9 +116,10 @@ public class CircleWidget extends View {
 	 */
 	private void drawPurple(Canvas canvas) {
 		canvas.save();
-		canvas.rotate(-80, canvas.getWidth() / 2, canvas.getWidth() / 2);
+		canvas.rotate(purpledegrees, canvas.getWidth() / 2,
+				canvas.getWidth() / 2);
 		purple.setBounds(new Rect(0, 0, canvas.getWidth(),
-				canvas.getHeight() + 25));
+				canvas.getHeight() + 50));
 		purple.draw(canvas);
 		canvas.restore();
 	}
@@ -126,7 +133,7 @@ public class CircleWidget extends View {
 		canvas.save();
 		canvas.rotate(-1, canvas.getWidth() / 2, canvas.getWidth() / 2);
 		blue.setBounds(new Rect(0, 0, canvas.getWidth(),
-				canvas.getHeight() + 25));
+				canvas.getHeight() + 50));
 		blue.draw(canvas);
 		canvas.restore();
 	}
@@ -139,7 +146,7 @@ public class CircleWidget extends View {
 	private void drawHalfCircle(Canvas canvas) {
 
 		halfcircle.setBounds(new Rect(0, 0, canvas.getWidth(), canvas
-				.getHeight() + 25));
+				.getHeight() + 50));
 		halfcircle.draw(canvas);
 	}
 
@@ -152,6 +159,7 @@ public class CircleWidget extends View {
 	}
 
 	private float[] oldxy = new float[2];
+	private int index = 1;
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -159,6 +167,22 @@ public class CircleWidget extends View {
 			LogUtil.i("ACTION_DOWN");
 			oldxy[0] = event.getX();
 			oldxy[1] = event.getY();
+			float x = getWidth() / 2 - oldxy[0];
+			float y = getHeight() - oldxy[1];
+			float mAngle = (float) java.lang.Math.atan2(y, x);
+			int radians = calculateRadiansFromAngle(mAngle) - 90;
+			LogUtil.i("radians:" + radians);
+			if (radians < 30) {
+				index = 1;
+			} else if (radians >= 30) {
+				if (radians < 60) {
+					index = 2;
+				} else {
+					if (radians < 100) {
+						index = 3;
+					}
+				}
+			}
 			return true;
 		}
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -175,22 +199,62 @@ public class CircleWidget extends View {
 			double arcA = Math.acos(cosA);
 			double angleA = arcA * 180 / Math.PI;
 			float x3 = x2 - x1;
-			int old=degrees;
-			if(x3>0){
-				degrees = degrees + (int) angleA;
-				if(degrees>-10){
-					//Toast.makeText(getContext(), "解锁", Toast.LENGTH_SHORT).show();
-					degrees=old;
+			int yellowdegreesold = yellowdegrees;
+			int greendegreesold = greendegrees;
+			int purpledegreesold = purpledegrees;
+
+			if (x3 > 0) {
+				if (index == 1) {
+					yellowdegrees = yellowdegrees + (int) angleA;
+				}
+				if (index == 2) {
+					greendegrees = greendegrees + (int) angleA;
+				}
+				if (index == 3) {
+					purpledegrees = purpledegrees + (int) angleA;
+				}
+				if (yellowdegrees > -10) {
+					// Toast.makeText(getContext(), "解锁",
+					// Toast.LENGTH_SHORT).show();
+					yellowdegrees = yellowdegreesold;
 					return true;
 				}
-			}else{
-				degrees = degrees - (int) angleA;
-				if(degrees<-150){
-					degrees=old;
+				if (greendegrees > -10) {
+					// Toast.makeText(getContext(), "解锁",
+					// Toast.LENGTH_SHORT).show();
+					greendegrees = greendegreesold;
+					return true;
+				}
+				if (purpledegrees > -10) {
+					// Toast.makeText(getContext(), "解锁",
+					// Toast.LENGTH_SHORT).show();
+					purpledegrees = purpledegreesold;
+					return true;
+				}
+			} else {
+				if (index == 1) {
+					yellowdegrees = yellowdegrees - (int) angleA;
+				}
+				if (index == 2) {
+					greendegrees = greendegrees - (int) angleA;
+				}
+				if (index == 3) {
+					purpledegrees = purpledegrees- (int) angleA;
+				}
+				if (yellowdegrees < -150) {
+					yellowdegrees =yellowdegreesold;
+					return true;
+				}
+				if (greendegrees < -120) {
+					greendegrees =greendegreesold;
+					return true;
+				}
+				if (purpledegrees < -80) {
+					purpledegrees =purpledegreesold;
 					return true;
 				}
 			}
-			LogUtil.i("ACTION_MOVE:" + degrees);
+			LogUtil.i("ACTION_MOVE:" + yellowdegrees);
 			oldxy[0] = event.getX();
 			oldxy[1] = event.getY();
 			postInvalidate();
@@ -198,7 +262,9 @@ public class CircleWidget extends View {
 		}
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			LogUtil.i("ACTION_UP");
-			degrees=-150;
+			yellowdegrees = -150;
+			greendegrees = -120;
+			purpledegrees = -80;
 			postInvalidate();
 		}
 		if (event.getAction() == MotionEvent.ACTION_CANCEL) {
@@ -208,7 +274,26 @@ public class CircleWidget extends View {
 
 	}
 
+	/**
+	 * 计算角度
+	 * 
+	 * @param angle
+	 * @return
+	 */
+	private int calculateRadiansFromAngle(float angle) {
+		float unit = (float) (angle / (2 * Math.PI));
+		if (unit < 0) {
+			unit += 1;
+		}
+		int radians = (int) ((unit * 360) - ((360 / 4) * 3));
+		if (radians < 0)
+			radians += 360;
+		return radians;
+	}
+
 	private Paint paint = new Paint();
-	private int degrees = -150;
+	private int yellowdegrees = -150;
+	private int greendegrees = -120;
+	private int purpledegrees = -80;
 
 }

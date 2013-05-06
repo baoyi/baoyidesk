@@ -2,10 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DemoActivity" >
 
-<com.inzi123.widget.CircleWidget  android:layout_width="200dp"
-    android:layout_height="match_parent" android:background="#dad9d7">
-    </com.inzi123.widget.CircleWidget >
+    <com.inzi123.widget.CircleWidget android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#dad9d7" >
+    </com.inzi123.widget.CircleWidget>
 
+    <com.inzi123.widget.DrawDemo android:layout_gravity="center"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:background="#dad9d7" />
+    
 </LinearLayout>
