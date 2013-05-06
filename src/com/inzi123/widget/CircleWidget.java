@@ -81,17 +81,18 @@ public class CircleWidget extends View {
 				canvas.getHeight() + 25));
 		yellow.draw(canvas);
 
-		canvas.restore();
-
-		canvas.save();
+		
 		Path path = new Path();
 		path.addArc(new RectF(canvas.getWidth() / 2, canvas.getWidth() / 2,
 				canvas.getWidth() + 50, canvas.getWidth() + 50), 180, 180f);
 		paint.setColor(Color.RED);
 		paint.setTextSize(20);
 		canvas.drawTextOnPath("关键词1", path, 0, 0, paint);
-		canvas.drawText("滑动2", 0, 0, paint);
+		canvas.drawText("滑动2", 200,100, paint);
+		
 		canvas.restore();
+
+
 	}
 
 	/**
@@ -144,7 +145,6 @@ public class CircleWidget extends View {
 	 * @param canvas
 	 */
 	private void drawHalfCircle(Canvas canvas) {
-
 		halfcircle.setBounds(new Rect(0, 0, canvas.getWidth(), canvas
 				.getHeight() + 50));
 		halfcircle.draw(canvas);
@@ -213,7 +213,7 @@ public class CircleWidget extends View {
 				if (index == 3) {
 					purpledegrees = purpledegrees + (int) angleA;
 				}
-				if (yellowdegrees > -10) {
+				if (yellowdegrees > 1) {
 					// Toast.makeText(getContext(), "解锁",
 					// Toast.LENGTH_SHORT).show();
 					yellowdegrees = yellowdegreesold;
