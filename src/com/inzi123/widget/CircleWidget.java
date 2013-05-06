@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.inzi123.baoyidesk.R;
 import com.inzi123.utils.LogUtil;
@@ -163,10 +164,20 @@ public class CircleWidget extends View {
 			double arcA = Math.acos(cosA);
 			double angleA = arcA * 180 / Math.PI;
 			float x3 = x2 - x1;
+			int old=degrees;
 			if(x3>0){
 				degrees = degrees + (int) angleA;
+				if(degrees>-10){
+					//Toast.makeText(getContext(), "解锁", Toast.LENGTH_SHORT).show();
+					degrees=old;
+					return true;
+				}
 			}else{
 				degrees = degrees - (int) angleA;
+				if(degrees<-150){
+					degrees=old;
+					return true;
+				}
 			}
 			LogUtil.i("ACTION_MOVE:" + degrees);
 			oldxy[0] = event.getX();
