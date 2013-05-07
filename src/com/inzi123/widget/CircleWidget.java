@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.inzi123.baoyidesk.R;
 import com.inzi123.utils.LogUtil;
@@ -21,7 +20,31 @@ public class CircleWidget extends View {
 		super(context);
 		initDraw();
 	}
+	OnKeyWordLoading OnKeyWordLoadingYellow;
+	OnKeyWordLoading OnKeyWordLoadingGreen;
+	public OnKeyWordLoading getOnKeyWordLoadingYellow() {
+		return OnKeyWordLoadingYellow;
+	}
 
+	public void setOnKeyWordLoadingYellow(OnKeyWordLoading onKeyWordLoadingYellow) {
+		OnKeyWordLoadingYellow = onKeyWordLoadingYellow;
+	}
+
+	public OnKeyWordLoading getOnKeyWordLoadingGreen() {
+		return OnKeyWordLoadingGreen;
+	}
+
+	public void setOnKeyWordLoadingGreen(OnKeyWordLoading onKeyWordLoadingGreen) {
+		OnKeyWordLoadingGreen = onKeyWordLoadingGreen;
+	}
+	OnDeblockingSuccess onDeblockingSuccess;
+	public OnDeblockingSuccess getOnDeblockingSuccess() {
+		return onDeblockingSuccess;
+	}
+
+	public void setOnDeblockingSuccess(OnDeblockingSuccess onDeblockingSuccess) {
+		this.onDeblockingSuccess = onDeblockingSuccess;
+	}
 	Drawable halfcircle;
 	Drawable yellow;
 	Drawable blue;
@@ -230,18 +253,28 @@ public class CircleWidget extends View {
 					// Toast.makeText(getContext(), "解锁",
 					// Toast.LENGTH_SHORT).show();
 					yellowdegrees = yellowdegreesold;
+
+					if(OnKeyWordLoadingYellow!=null){
+						OnKeyWordLoadingYellow.success("农夫山泉");
+					}
 					return true;
 				}
 				if (greendegrees > -10) {
 					// Toast.makeText(getContext(), "解锁",
 					// Toast.LENGTH_SHORT).show();
 					greendegrees = greendegreesold;
+					if(OnKeyWordLoadingGreen!=null){
+						OnKeyWordLoadingGreen.success("金正恩");
+					}
 					return true;
 				}
 				if (purpledegrees > -10) {
 					// Toast.makeText(getContext(), "解锁",
 					// Toast.LENGTH_SHORT).show();
 					purpledegrees = purpledegreesold;
+					if(onDeblockingSuccess!=null){
+						onDeblockingSuccess.success();
+					}
 					return true;
 				}
 			} else {
