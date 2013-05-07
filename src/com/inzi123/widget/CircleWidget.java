@@ -83,13 +83,11 @@ public class CircleWidget extends View {
 
 		
 		Path path = new Path();
-		path.addArc(new RectF(canvas.getWidth() / 2, canvas.getWidth() / 2,
-				canvas.getWidth() + 50, canvas.getWidth() + 50), 180, 180f);
+		path.addArc(new RectF(canvas.getWidth()/4,canvas.getWidth()/4,
+				canvas.getWidth()*3/4, canvas.getWidth()*3/4), -30, 90f);
 		paint.setColor(Color.RED);
 		paint.setTextSize(20);
-		canvas.drawTextOnPath("关键词1", path, 0, 0, paint);
-		canvas.drawText("滑动2", 200,100, paint);
-		
+		canvas.drawTextOnPath("农夫山泉", path, 0, 0, paint);
 		canvas.restore();
 
 
@@ -107,6 +105,14 @@ public class CircleWidget extends View {
 		greed.setBounds(new Rect(0, 0, canvas.getWidth(),
 				canvas.getHeight() + 50));
 		greed.draw(canvas);
+		
+		Path path = new Path();
+		path.addArc(new RectF(canvas.getWidth()/4,canvas.getWidth()/4,
+				canvas.getWidth()*3/4, canvas.getWidth()*3/4), -20, 90f);
+		paint.setColor(Color.RED);
+		paint.setTextSize(20);
+		canvas.drawTextOnPath("金正恩", path, 0, 0, paint);
+		
 		canvas.restore();
 	}
 
@@ -122,6 +128,13 @@ public class CircleWidget extends View {
 		purple.setBounds(new Rect(0, 0, canvas.getWidth(),
 				canvas.getHeight() + 50));
 		purple.draw(canvas);
+		
+		Path path = new Path();
+		path.addArc(new RectF(canvas.getWidth()/4,canvas.getWidth()/4,
+				canvas.getWidth()*3/4, canvas.getWidth()*3/4), -20, 90f);
+		paint.setColor(Color.RED);
+		paint.setTextSize(20);
+		canvas.drawTextOnPath("解锁", path, 0, 0, paint);
 		canvas.restore();
 	}
 
